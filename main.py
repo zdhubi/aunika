@@ -129,6 +129,8 @@ def parse_product_page(url):
         return None
 
 category_urls = [
+
+    
     "https://www.aunika.com/Autohifi/1DIN-autoradia",
     "https://www.aunika.com/Multimedia/AV-jednotky",
     "https://www.aunika.com/Multimedia/Moduly-Apple-CarPlay-Android-Auto",
@@ -147,6 +149,7 @@ category_urls = [
     "https://www.aunika.com/Hands-free-sady-GSM-prislusenstvi/Nabijecky-pro-mobilni-telefony/USB-nabijecky-do-CL-zasuvky",
     "https://www.aunika.com/Hands-free-sady-GSM-prislusenstvi/Inbay-bezdratove-nabijeni",
     "https://www.aunika.com/Elektronicke-systemy-do-automobilu/Tempomaty"
+
 ]
 
 vsechny_produkty = []
@@ -237,7 +240,7 @@ for data in parsed_products:
         product.appendChild(c('STOCK', stock_val, cdata=True))
 
 # 💾 Zápis XML
-with open("export.xml", "w", encoding="utf-8") as f:
+with open("export1.xml", "w", encoding="utf-8") as f:
     f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
 
 # 📊 CSV export
@@ -266,15 +269,15 @@ def upload_to_upgates(file_path):
             ftp.storbinary('STOR export.xml', f)
 
         ftp.quit()
-        safe_print("[OK] export.xml byl nahrán na FTP.")
+        safe_print("[OK] export1.xml byl nahrán na FTP.")
         if log:
-            log.write("[OK] export.xml byl nahrán na FTP.\n")
+            log.write("[OK] export1.xml byl nahrán na FTP.\n")
     except Exception as e:
         safe_print(f"[ERROR] FTP upload selhal: {e}")
         if log:
             log.write(f"[ERROR] FTP upload selhal: {e}\n")
 
-upload_to_upgates("export.xml")
+upload_to_upgates("export1.xml")
 
 if log:
     log.write(f"[{datetime.now().strftime('%d.%m.%Y %H:%M:%S,%f')[:-3]}] Hotovo.\n\n")
