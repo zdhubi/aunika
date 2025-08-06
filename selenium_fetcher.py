@@ -37,24 +37,29 @@ def get_product_links_selenium(category_url, timeout=30):
     except Exception:
         pass
 
-    # 🧲 Opakované klikání na tlačítko „Načíst vše“
-    try:
-        wait = WebDriverWait(driver, 15)
-        while True:
-            try:
-                load_all_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Načíst vše')]")))
-                driver.execute_script("arguments[0].scrollIntoView();", load_all_button)
-                time.sleep(1)
-                load_all_button.click()
-                print("[INFO] Kliknuto na 'Načíst vše'")
-                time.sleep(3)
-            except:
-                print("[INFO] Žádné další tlačítko 'Načíst vše'")
+    # 🔄 Scroll dolů opakovaně pro vykreslení tlačítka
+    found_button = False
+    for i in range(10):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(1.5)
+
+        try:
+            candidates = driver.find_elements(By.XPATH, "//*[contains(text(), 'Načíst vše')]")
+            for el in candidates:
+                if el.is_displayed() and el.tag_name.lower() in ['button', 'div', 'span']:
+                    driver.execute_script("arguments[0].scrollIntoView();", el)
+                    driver.execute_script("arguments[0].click();", el)
+                    print("[INFO] Tlačítko 'Načíst vše' úspěšně kliknuto.")
+                    time.sleep(4)
+                    found_button = True
+                    break
+            if found_button:
                 break
-    except Exception as e:
-        print(f"[WARNING] Chyba při pokusu o načtení všech produktů: {e}")
+        except Exception:
+            continue
 
-
+    if not found_button:
+        print("[WARNING] Tlačítko 'Načíst vše' nebylo nalezeno ani po scrollování.")
 
     # 🕵️‍♂️ Načtení odkazů
     links = []
