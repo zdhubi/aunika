@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
@@ -21,7 +23,6 @@ def get_product_links_selenium(category_url, timeout=30):
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.set_page_load_timeout(timeout)
-
     driver.get(category_url)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
@@ -35,17 +36,16 @@ def get_product_links_selenium(category_url, timeout=30):
         pass
 
     # 🧲 Pokus o kliknutí na tlačítko „Načíst vše“
-try:
-    wait = WebDriverWait(driver, 15)
-    load_all_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Načíst vše')]")))
-    driver.execute_script("arguments[0].scrollIntoView();", load_all_button)
-    time.sleep(1)
-    load_all_button.click()
-    print("[INFO] Tlačítko 'Načíst vše' úspěšně kliknuto.")
-    time.sleep(4)
-except Exception as e:
-    print(f"[WARNING] Tlačítko 'Načíst vše' se nepodařilo kliknout: {e}")
-
+    try:
+        wait = WebDriverWait(driver, 15)
+        load_all_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Načíst vše')]")))
+        driver.execute_script("arguments[0].scrollIntoView();", load_all_button)
+        time.sleep(1)
+        load_all_button.click()
+        print("[INFO] Tlačítko 'Načíst vše' úspěšně kliknuto.")
+        time.sleep(4)
+    except Exception as e:
+        print(f"[WARNING] Tlačítko 'Načíst vše' se nepodařilo kliknout: {e}")
 
     # 🕵️‍♂️ Načtení odkazů
     links = []
