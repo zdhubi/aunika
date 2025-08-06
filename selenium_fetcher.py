@@ -22,7 +22,7 @@ def get_product_links_selenium(category_url, timeout=30):
     options.add_experimental_option("useAutomationExtension", False)
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122 Safari/537.36")
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(options=options)
     driver.set_page_load_timeout(timeout)
     driver.get(category_url)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
