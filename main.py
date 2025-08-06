@@ -156,6 +156,11 @@ vsechny_produkty = []
 for k in category_urls:
     try:
         urls = get_product_links_selenium(k)
+        if not urls:
+            safe_print(f"[WARNING] Žádné odkazy pro kategorii: {k}")
+            if log:
+                log.write(f"[WARNING] Žádné odkazy pro kategorii: {k}\n")
+            continue
         safe_print(f"[INFO] Nalezeno {len(urls)} produktů z kategorie: {k}")
         if log:
             log.write(f"[INFO] {len(urls)} produktů z kategorie: {k}\n")
@@ -164,6 +169,7 @@ for k in category_urls:
         safe_print(f"[ERROR] Selhalo načítání kategorie {k} -> {e}")
         if log:
             log.write(f"[ERROR] Kategorie selhala: {k} -> {e}\n")
+
 
 parsed_products = []
 with ThreadPoolExecutor(max_workers=8) as executor:
