@@ -50,7 +50,10 @@ def get_product_links_selenium(category_url, timeout=30):
                     driver.execute_script("arguments[0].scrollIntoView();", el)
                     driver.execute_script("arguments[0].click();", el)
                     print("[INFO] Tlačítko 'Načíst vše' úspěšně kliknuto.")
-                    time.sleep(4)
+                    # ⏳ Čekání na načtení produktů
+                    WebDriverWait(driver, 20).until(
+                        lambda d: len(d.find_elements(By.CSS_SELECTOR, "a.item_link, div.item a[href*='/']")) > 10
+                    )
                     found_button = True
                     break
             if found_button:
