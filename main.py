@@ -240,7 +240,7 @@ for data in parsed_products:
         product.appendChild(c('STOCK', stock_val, cdata=True))
 
 # 💾 Zápis XML
-with open("export1.xml", "w", encoding="utf-8") as f:
+with open("test.xml", "w", encoding="utf-8") as f:
     f.write(doc.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8"))
 
 # 📊 CSV export
@@ -266,18 +266,18 @@ def upload_to_upgates(file_path):
         ftp.login(user='project_connections_23436', passwd='5dqjqfuu')
 
         with open(file_path, 'rb') as f:
-            ftp.storbinary('STOR export.xml', f)
+            ftp.storbinary('STOR test.xml', f)
 
         ftp.quit()
-        safe_print("[OK] export1.xml byl nahrán na FTP.")
+        safe_print("[OK] test.xml byl nahrán na FTP.")
         if log:
-            log.write("[OK] export1.xml byl nahrán na FTP.\n")
+            log.write("[OK] test.xml byl nahrán na FTP.\n")
     except Exception as e:
         safe_print(f"[ERROR] FTP upload selhal: {e}")
         if log:
             log.write(f"[ERROR] FTP upload selhal: {e}\n")
 
-upload_to_upgates("export1.xml")
+upload_to_upgates("test.xml")
 
 if log:
     log.write(f"[{datetime.now().strftime('%d.%m.%Y %H:%M:%S,%f')[:-3]}] Hotovo.\n\n")
