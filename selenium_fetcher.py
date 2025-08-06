@@ -38,21 +38,21 @@ def get_product_links_selenium(category_url, timeout=30):
         pass
 
     # 🧲 Opakované klikání na tlačítko „Načíst vše“
-try:
-    wait = WebDriverWait(driver, 15)
-    while True:
-        try:
-            load_all_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Načíst vše')]")))
-            driver.execute_script("arguments[0].scrollIntoView();", load_all_button)
-            time.sleep(1)
-            load_all_button.click()
-            print("[INFO] Kliknuto na 'Načíst vše'")
-            time.sleep(3)
-        except:
-            print("[INFO] Žádné další tlačítko 'Načíst vše'")
-            break
-except Exception as e:
-    print(f"[WARNING] Chyba při pokusu o načtení všech produktů: {e}")
+    try:
+        wait = WebDriverWait(driver, 15)
+        while True:
+            try:
+                load_all_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Načíst vše')]")))
+                driver.execute_script("arguments[0].scrollIntoView();", load_all_button)
+                time.sleep(1)
+                load_all_button.click()
+                print("[INFO] Kliknuto na 'Načíst vše'")
+                time.sleep(3)
+            except:
+                print("[INFO] Žádné další tlačítko 'Načíst vše'")
+                break
+    except Exception as e:
+        print(f"[WARNING] Chyba při pokusu o načtení všech produktů: {e}")
 
 
 
