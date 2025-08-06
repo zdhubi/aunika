@@ -54,6 +54,7 @@ except Exception as e:
     print(f"[WARNING] Chyba při pokusu o načtení všech produktů: {e}")
 
 
+
     # 🕵️‍♂️ Načtení odkazů
     links = []
     elements = driver.find_elements(By.CSS_SELECTOR, "a.item_link, div.item a[href*='/']")
