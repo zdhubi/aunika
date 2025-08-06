@@ -9,6 +9,7 @@ import time
 
 def get_product_links_selenium(category_url, timeout=30):
     options = Options()
+    options.binary_location = "/usr/bin/chromium"
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
