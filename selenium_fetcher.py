@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
+def get_product_links_selenium(category_url, timeout=30):
     options = Options()
     options.binary_location = "/usr/bin/chromium"
     options.add_argument("--headless")
@@ -25,6 +26,7 @@ import time
     driver.set_page_load_timeout(timeout)
     driver.get(category_url)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
 
     # 🍪 Cookies
     try:
