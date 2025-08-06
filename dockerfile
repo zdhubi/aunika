@@ -1,9 +1,7 @@
-FROM python:3.9-slim
+FROM python:3.9.18-slim
 
-# Nastavení pracovní složky
 WORKDIR /app
 
-# Instalace závislostí pro Chrome
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
@@ -26,17 +24,13 @@ RUN apt-get update && apt-get install -y \
     chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
-# Zajištění cesty k Chrome (pro webdriver_manager)
 ENV PATH="/usr/bin:$PATH"
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
-# Instalace Python knihoven
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Kopírování zbytku kódu
 COPY . .
 
-# Spuštění skriptu
 CMD ["python", "main.py"]
